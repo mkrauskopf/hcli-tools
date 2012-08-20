@@ -1,0 +1,28 @@
+Name          : hcli-tools
+Version       : 0.1.0
+Cabal-Version : >= 1.8
+Author        : Martin Krauskopf
+Category      : Tools
+Synopsis      : Various CLI tools
+Build-Type    : Simple
+
+Executable normalize-path
+  Main-Is: normalize-path.hs
+  Build-Depends: base >= 4 && < 5
+               , cmdargs
+               , shelly >= 0.14 && < 1
+               , system-filepath
+               , text
+
+  Ghc-Options: -Wall
+
+Executable number-files
+  Main-Is: number-files.hs
+  Build-Depends: base >= 4 && < 5
+               , cmdargs
+               , shelly >= 0.14 && < 1
+               , system-filepath
+               , text
+
+  Ghc-Options: -Wall
+

@@ -1,4 +1,7 @@
-hcli-tools
+HCLI Tools
 ==========
 
-Bunch of CLI tools written in Haskell
+So far just bunch of ad hoc tools written in Haskell which also learn me the language in useful way.
+
+TODO: elaborate on individual tools
+
