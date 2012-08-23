@@ -26,3 +26,11 @@ Executable number-files
 
   Ghc-Options: -Wall
 
+Executable remove-dupes-in-path
+  Main-Is: remove-dupes-in-path.hs
+  Build-Depends: base >= 4 && < 5
+               , cmdargs
+               , split
+
+  Ghc-Options: -Wall
+
