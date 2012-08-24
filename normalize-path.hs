@@ -1,8 +1,6 @@
 {-# LANGUAGE DeriveDataTypeable, OverloadedStrings #-}
 {-# LANGUAGE RecordWildCards #-}
 
-module Main (main) where
-
 import CLI.Tool.Normalizer(normalizePath)
 import Prelude as P hiding (FilePath)
 import Shelly

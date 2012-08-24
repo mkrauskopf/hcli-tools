@@ -1,8 +1,6 @@
 {-# LANGUAGE DeriveDataTypeable, OverloadedStrings #-}
 {-# LANGUAGE RecordWildCards #-}
 
-module Main (main) where
-
 import Prelude as P hiding (FilePath)
 import Data.Text.Lazy as LT
 import Shelly
