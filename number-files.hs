@@ -10,6 +10,13 @@ import Data.Monoid((<>))
 import Filesystem.Path(filename)
 import Data.Int(Int64)
 import Control.Monad(zipWithM_)
+import System.Environment(getArgs, withArgs)
+
+nfVersion, nfCopyright, nfProgram, nfSummary :: String
+nfVersion   = "0.1.1"
+nfCopyright = "2012"
+nfProgram   = "number-files"
+nfSummary   = nfProgram ++ " v" ++ nfVersion ++ ", (C) Martin Krauskopf " ++ nfCopyright
 
 data CmdOptions = CmdOptions
   { dir     :: String
@@ -27,11 +34,14 @@ defOpts = CmdOptions
                     &= explicit &= name "strip" &= name "S"
   , dryRun  = False &= help "Perform a trial run with no changes made"
   , verbose = False &= help "Prints more information"
-  }
+  } &= summary nfSummary
+    &= program nfProgram
+    &= help "Number files in the given directory"
 
 main :: IO ()
 main = shelly $ do
-  CmdOptions{..} <- liftIO $ cmdArgs defOpts
+  mainArgs <- liftIO getArgs
+  CmdOptions{..} <- liftIO $ (if P.null mainArgs then withArgs ["-?"] else id) (cmdArgs defOpts)
   files <- lsF . fromText . pack $ dir
   filenames <- mapM (toTextWarn . filename) files
   let numberWidth = fromIntegral . P.length . show $ P.length filenames * step + 1
