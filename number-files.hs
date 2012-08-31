@@ -24,6 +24,7 @@ defOpts = CmdOptions
   { dir     = ""    &= argPos 0 &= typDir
   , step    = 1     &= help "Numbering step. Default to 1."
   , lstrip  = 0     &= help "Number of initial(left) characters to strip from original filename"
+                    &= explicit &= name "strip" &= name "S"
   , dryRun  = False &= help "Perform a trial run with no changes made"
   , verbose = False &= help "Prints more information"
   }
