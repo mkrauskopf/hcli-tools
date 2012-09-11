@@ -6,11 +6,11 @@ import Data.Text.Lazy as LT
 import Shelly
 import Shelly.Utils
 import System.Console.CmdArgs.Implicit
+import System.Console.CmdArgs.Utils
 import Data.Monoid((<>))
 import Filesystem.Path(filename)
 import Data.Int(Int64)
 import Control.Monad(zipWithM_)
-import System.Environment(getArgs, withArgs)
 
 nfVersion, nfCopyright, nfProgram, nfSummary :: String
 nfVersion   = "0.1.1"
@@ -40,8 +40,7 @@ defOpts = CmdOptions
 
 main :: IO ()
 main = shelly $ do
-  mainArgs <- liftIO getArgs
-  CmdOptions{..} <- liftIO $ (if P.null mainArgs then withArgs ["-?"] else id) (cmdArgs defOpts)
+  CmdOptions{..} <- liftIO $ cmdArgsOrHelp defOpts
   files <- lsF . fromText . pack $ dir
   filenames <- mapM (toTextWarn . filename) files
   let numberWidth = fromIntegral . P.length . show $ P.length filenames * step + 1
