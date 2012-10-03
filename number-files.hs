@@ -1,16 +1,17 @@
 {-# LANGUAGE DeriveDataTypeable, OverloadedStrings #-}
 {-# LANGUAGE RecordWildCards #-}
 
-import Prelude as P hiding (FilePath)
+import Control.Monad(zipWithM_)
+import Data.Int(Int64)
+import Data.Monoid((<>))
+import Data.String(fromString)
 import Data.Text.Lazy as LT
+import Filesystem.Path(filename)
+import Prelude as P hiding (FilePath)
 import Shelly
 import Shelly.Utils
 import System.Console.CmdArgs.Implicit
 import System.Console.CmdArgs.Utils
-import Data.Monoid((<>))
-import Filesystem.Path(filename)
-import Data.Int(Int64)
-import Control.Monad(zipWithM_)
 
 nfVersion, nfCopyright, nfProgram, nfSummary :: String
 nfVersion   = "0.1.1"
@@ -41,7 +42,7 @@ defOpts = CmdOptions
 main :: IO ()
 main = shelly $ do
   CmdOptions{..} <- liftIO $ cmdArgsOrHelp defOpts
-  files <- lsF . fromText . pack $ dir
+  files <- lsF . fromString $ dir
   filenames <- mapM (toTextWarn . filename) files
   let numberWidth = fromIntegral . P.length . show $ P.length filenames * step + 1
   let newFiles = P.zipWith (genNewName numberWidth)
