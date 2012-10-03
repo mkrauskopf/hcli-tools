@@ -2,6 +2,8 @@
 module Shelly.Utils
     ( lsF
     , move
+    , canonicAbsPath
+    , canonicRelPath
     )
   where
 
@@ -16,9 +18,15 @@ lsF fp = filterM test_f =<< ls fp
 
 move :: Bool -> Bool -> FilePath -> FilePath -> Sh ()
 move dryRun verbose from to = do
-  from' <- canonic =<< absPath from
+  from' <- canonicAbsPath from
   to' <- canonic =<< absPath to
   unless (from' == to') $ do
     when (verbose || dryRun) $ echo $ toTextIgnore from' <> " -> " <> toTextIgnore to
     unless dryRun $ mv from to
+
+canonicAbsPath :: FilePath -> Sh FilePath
+canonicAbsPath path = absPath path >>= canonic
+
+canonicRelPath :: FilePath -> Sh FilePath
+canonicRelPath path = canonic path >>= relPath
 
