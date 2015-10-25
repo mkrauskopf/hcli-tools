@@ -2,7 +2,7 @@
 {-# LANGUAGE ExtendedDefaultRules #-}
 {-# OPTIONS_GHC -fno-warn-type-defaults #-}
 
-import Data.Text.Lazy as LT
+import Data.Text as T
 import Prelude as P hiding (FilePath)
 import Shelly
 import Shelly.Utils
@@ -11,7 +11,7 @@ import System.Console.CmdArgs.Utils
 import Data.String(fromString)
 import Data.Monoid((<>))
 import Filesystem.Path(filename)
-default (LT.Text)
+default (T.Text)
 
 nfVersion, nfCopyright, nfProgram, nfSummary :: String
 nfVersion   = "0.0.1"

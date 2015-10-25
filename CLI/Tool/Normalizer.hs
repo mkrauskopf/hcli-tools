@@ -3,11 +3,11 @@
 module CLI.Tool.Normalizer (normalizePath) where
 
 import Prelude as P hiding (FilePath)
-import Data.Text.Lazy as LT hiding (foldl, map)
+import Data.Text as T hiding (foldl, map)
 import Shelly
 import Data.Char
 import Filesystem.Path(filename, directory)
-default (LT.Text)
+default (T.Text)
 
 -- Normalizes filename part of the given path.
 normalizePath :: FilePath -- ^ path to file to be normalized
@@ -26,7 +26,7 @@ underscore text = pack $ map f (unpack text)
     f :: Char -> Char
     f c = if not $ isStandard c then '_' else c
     isStandard :: Char -> Bool
-    isStandard c = isAlphaNum c || c `elem` "._-"
+    isStandard c = isAlphaNum c || c `elem` ("._-" :: String)
 
 -- Characters mapping table.
 table :: [ (Text, Text) ] 

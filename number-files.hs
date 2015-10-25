@@ -2,10 +2,9 @@
 {-# LANGUAGE RecordWildCards #-}
 
 import Control.Monad(zipWithM_)
-import Data.Int(Int64)
 import Data.Monoid((<>))
 import Data.String(fromString)
-import Data.Text.Lazy as LT
+import Data.Text as T
 import Filesystem.Path(filename)
 import Prelude as P hiding (FilePath)
 import Shelly
@@ -22,7 +21,7 @@ nfSummary   = nfProgram ++ " v" ++ nfVersion ++ ", (C) Martin Krauskopf " ++ nfC
 data CmdOptions = CmdOptions
   { dir     :: String
   , step    :: Int
-  , lstrip  :: Int64
+  , lstrip  :: Int
   , verbose :: Bool
   , dryRun  :: Bool
   } deriving (Show,Data,Typeable)
@@ -47,9 +46,9 @@ main = shelly $ do
   let numberWidth = fromIntegral . P.length . show $ P.length filenames * step + 1
   let newFiles = P.zipWith (genNewName numberWidth)
                          [1,1+step..]
-                         (P.map (LT.drop lstrip) filenames)
+                         (P.map (T.drop lstrip) filenames)
   zipWithM_ (move dryRun verbose) files (P.map fromText newFiles)
 
-genNewName :: Int64 -> Int -> Text -> Text
+genNewName :: Int -> Int -> Text -> Text
 genNewName numberWidth n f = justifyRight numberWidth '0' (pack . show $ n) <> "-" <> f
 
